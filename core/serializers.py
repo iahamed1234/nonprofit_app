@@ -18,14 +18,6 @@ class NonProfitOrganizationSerializer(serializers.ModelSerializer):
         model = NonProfitOrganization
         fields = '__all__'
 
-# # Volunteer Serializer
-# class VolunteerSerializer(serializers.ModelSerializer):
-#     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())  # Accepts user ID instead of a nested object
-
-#     class Meta:
-#         model = Volunteer
-#         fields = '__all__'
-
 # New Volunteer Serializer to display volunteer name
 class VolunteerSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
