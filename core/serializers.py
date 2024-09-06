@@ -20,45 +20,43 @@ class NonProfitOrganizationSerializer(serializers.ModelSerializer):
 
 # # Volunteer Serializer
 # class VolunteerSerializer(serializers.ModelSerializer):
-#     user = ProfileSerializer()  # Nested serializer to include user details
+#     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())  # Accepts user ID instead of a nested object
 
 #     class Meta:
 #         model = Volunteer
 #         fields = '__all__'
 
-# Volunteer Serializer
+# New Volunteer Serializer to display volunteer name
 class VolunteerSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())  # Accepts user ID instead of a nested object
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
 
     class Meta:
         model = Volunteer
         fields = '__all__'
 
+    # Override to_representation to include user details
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        # Add user details to the representation
+        representation['username'] = instance.user.username
+        representation['first_name'] = instance.user.first_name
+        representation['last_name'] = instance.user.last_name
+        representation['email'] = instance.user.email
+        return representation
 
-# # Donation Serializer
-# class DonationSerializer(serializers.ModelSerializer):
-#     user = ProfileSerializer()  # Nested serializer to include user details
-
-#     class Meta:
-#         model = Donation
-#         fields = '__all__'
 
 # Donation Serializer
 class DonationSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())  # Accepts user ID instead of a nested object
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
 
     class Meta:
         model = Donation
         fields = '__all__'
-
-
-# # Project Serializer
-# class ProjectSerializer(serializers.ModelSerializer):
-#     organization = NonProfitOrganizationSerializer()  # Nested serializer to include organization details
-
-#     class Meta:
-#         model = Project
-#         fields = '__all__'
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        # Add the user's email to the representation
+        representation['user_email'] = instance.user.email
+        return representation
 
 class ProjectSerializer(serializers.ModelSerializer):
     organization = serializers.PrimaryKeyRelatedField(queryset=NonProfitOrganization.objects.all())  # Accepts organization ID
@@ -66,14 +64,6 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = '__all__'
-
-# # Event Serializer
-# class EventSerializer(serializers.ModelSerializer):
-#     organization = NonProfitOrganizationSerializer()  # Nested serializer to include organization details
-
-#     class Meta:
-#         model = Event
-#         fields = '__all__'
 
 # Event Serializer
 class EventSerializer(serializers.ModelSerializer):
@@ -83,15 +73,6 @@ class EventSerializer(serializers.ModelSerializer):
         model = Event
         fields = '__all__'
 
-# # VolunteerApplication Serializer
-# class VolunteerApplicationSerializer(serializers.ModelSerializer):
-#     volunteer = VolunteerSerializer()  # Nested serializer to include volunteer details
-#     project = ProjectSerializer()  # Nested serializer to include project details
-
-#     class Meta:
-#         model = VolunteerApplication
-#         fields = '__all__'
-
 # VolunteerApplication Serializer
 class VolunteerApplicationSerializer(serializers.ModelSerializer):
     volunteer = serializers.PrimaryKeyRelatedField(queryset=Volunteer.objects.all())  # Accepts volunteer ID
@@ -100,16 +81,6 @@ class VolunteerApplicationSerializer(serializers.ModelSerializer):
     class Meta:
         model = VolunteerApplication
         fields = '__all__'
-
-
-# # Registration Serializer
-# class RegistrationSerializer(serializers.ModelSerializer):
-#     event = EventSerializer()  # Nested serializer to include event details
-#     user = ProfileSerializer()  # Nested serializer to include user details
-
-#     class Meta:
-#         model = Registration
-#         fields = '__all__'
 
 # Registration Serializer
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -126,16 +97,6 @@ class ResourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Resource
         fields = '__all__'
-
-# # ResourceAllocation Serializer
-# class ResourceAllocationSerializer(serializers.ModelSerializer):
-#     resource = ResourceSerializer()  # Nested serializer to include resource details
-#     project = ProjectSerializer()  # Nested serializer to include project details
-#     event = EventSerializer()  # Nested serializer to include event details 
-
-#     class Meta:
-#         model = ResourceAllocation
-#         fields = '__all__'
 
 # ResourceAllocation Serializer
 class ResourceAllocationSerializer(serializers.ModelSerializer):
