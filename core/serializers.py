@@ -52,17 +52,32 @@ class DonationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-# Project Serializer
+# # Project Serializer
+# class ProjectSerializer(serializers.ModelSerializer):
+#     organization = NonProfitOrganizationSerializer()  # Nested serializer to include organization details
+
+#     class Meta:
+#         model = Project
+#         fields = '__all__'
+
 class ProjectSerializer(serializers.ModelSerializer):
-    organization = NonProfitOrganizationSerializer()  # Nested serializer to include organization details
+    organization = serializers.PrimaryKeyRelatedField(queryset=NonProfitOrganization.objects.all())  # Accepts organization ID
 
     class Meta:
         model = Project
         fields = '__all__'
 
+# # Event Serializer
+# class EventSerializer(serializers.ModelSerializer):
+#     organization = NonProfitOrganizationSerializer()  # Nested serializer to include organization details
+
+#     class Meta:
+#         model = Event
+#         fields = '__all__'
+
 # Event Serializer
 class EventSerializer(serializers.ModelSerializer):
-    organization = NonProfitOrganizationSerializer()  # Nested serializer to include organization details
+    organization = serializers.PrimaryKeyRelatedField(queryset=NonProfitOrganization.objects.all())  # Accepts organization ID
 
     class Meta:
         model = Event
@@ -125,9 +140,15 @@ class ResourceSerializer(serializers.ModelSerializer):
 # ResourceAllocation Serializer
 class ResourceAllocationSerializer(serializers.ModelSerializer):
     resource = serializers.PrimaryKeyRelatedField(queryset=Resource.objects.all())  # Accepts resource ID
-    project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all(), allow_null=True)  # Accepts project ID
-    event = serializers.PrimaryKeyRelatedField(queryset=Event.objects.all(), allow_null=True)  # Accepts event ID
+    project = serializers.PrimaryKeyRelatedField(queryset=Project.objects.all(), allow_null=True, required=False)  # Accepts project ID
+    event = serializers.PrimaryKeyRelatedField(queryset=Event.objects.all(), allow_null=True, required=False)  # Accepts event ID
 
     class Meta:
         model = ResourceAllocation
         fields = '__all__'
+        
+    def validate(self, data):
+        # Ensure that at least one of `project` or `event` is provided
+        if not data.get('project') and not data.get('event'):
+            raise serializers.ValidationError("Either 'project' or 'event' must be provided.")
+        return data
