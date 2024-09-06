@@ -27,6 +27,7 @@ import VolunteersList from './components/VolunteersList';
 import DonationsList from './components/DonationsList';
 import ProjectsList from './components/ProjectsList';
 import EventsList from './components/EventsList';
+import VolunteerRegistration from './components/VolunteerRegistration';
 // import AddEvent from './components/AddEvent';
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
             <li><Link to="/donations">Donations</Link></li>
             <li><Link to="/projects">Projects</Link></li>
             <li><Link to="/events">Events</Link></li>
+            <li><Link to="/register-volunteer">Register Volunteer</Link></li>
             {/* <li><Link to="/add-event">Add New Event</Link></li> */}
           </ul>
         </nav>
@@ -48,6 +50,7 @@ function App() {
           <Route path="/donations" element={<DonationsList />} />
           <Route path="/projects" element={<ProjectsList />} />
           <Route path="/events" element={<EventsList />} />
+          <Route path="/register-volunteer" element={<VolunteerRegistration />} />
           {/* <Route path="/add-event" element={<AddEvent />} /> */}
           <Route path="/" element={<h1>Welcome to the Volunteer Management Application</h1>} />
         </Routes>
