@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'channels',
     'core',
     'corsheaders', # Call Django backend from frontend
 ]
@@ -57,6 +58,17 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
 ]
 
+ASGI_APPLICATION = 'nonprofit_app.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('127.0.0.1', 6379)],
+        },
+    },
+}
+
 ROOT_URLCONF = 'nonprofit_app.urls'
 
 TEMPLATES = [
@@ -75,7 +87,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'nonprofit_app.wsgi.application'
+# WSGI_APPLICATION = 'nonprofit_app.wsgi.application'
 
 
 # Database
