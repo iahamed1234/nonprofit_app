@@ -4,6 +4,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import RegisterForEvent from './RegisterForEvent';
+import { Link } from 'react-router-dom';
 
 // Initialize the localizer for the calendar
 const localizer = momentLocalizer(moment);
@@ -100,6 +101,7 @@ function EventsList() {
             <th>End Time</th>
             <th>Organization</th>
             <th>Register</th>
+            <th>Promote Event</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -114,6 +116,11 @@ function EventsList() {
               <td>{getOrganizationName(event.organization)}</td> 
               <td>
                 <RegisterForEvent eventId={event.id} />
+              </td>
+              <td>
+                <Link to={`/promote-event/${event.id}`}>
+                  <button>Promote</button>
+                </Link>
               </td>
               <td>
                 <button onClick={() => handleDeleteEvent(event.id)}>Delete</button>

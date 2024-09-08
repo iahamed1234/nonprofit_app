@@ -12,6 +12,8 @@ from django.contrib.auth.models import User
 # from .models import Volunteer
 # from .serializers import VolunteerSerializer
 from .tasks import send_event_reminder_email
+from django.http import JsonResponse
+from django.core.mail import send_mail
 
 @api_view(['POST'])
 def register_volunteer(request):
@@ -65,6 +67,35 @@ class NonProfitOrganizationViewSet(viewsets.ModelViewSet):
 class VolunteerViewSet(viewsets.ModelViewSet):
     queryset = Volunteer.objects.all()
     serializer_class = VolunteerSerializer
+
+def get_skills(request):
+    skills = Volunteer.objects.values_list('skills', flat=True).distinct()
+    unique_skills = set(skill.strip() for skill_list in skills for skill in skill_list.split(','))
+    return JsonResponse(list(unique_skills), safe=False)
+
+#Filter Volunteer by skills
+def get_volunteers_by_skills(request):
+    skills = request.data.get('skills', [])
+    volunteers = Volunteer.objects.filter(skills__in=skills).distinct()
+    data = [{"id": v.id, "user": v.user.email, "skills": v.skills} for v in volunteers]
+    return JsonResponse(data, safe=False)
+
+# Email send Functionality for promote
+def send_event_email(request):
+    event_id = request.data.get('eventId')
+    volunteer_ids = request.data.get('volunteerIds')
+    volunteers = Volunteer.objects.filter(id__in=volunteer_ids)
+    
+    emails = [v.user.email for v in volunteers]
+    
+    send_mail(
+        f'Invitation to Event #{event_id}',
+        'You have been invited to participate in the event. Please log in for more details.',
+        'your_email@example.com',
+        emails
+    )
+    
+    return JsonResponse({"message": "Emails sent successfully!"})
 
 # Donation ViewSet
 class DonationViewSet(viewsets.ModelViewSet):
