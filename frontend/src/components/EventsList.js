@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import moment from 'moment';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+
+// Initialize the localizer for the calendar
+const localizer = momentLocalizer(moment);
 
 function EventsList() {
   const [events, setEvents] = useState([]);
-  const [organizations, setOrganizations] = useState([]); // For storing organizations
+  const [organizations, setOrganizations] = useState([]);
   const [newEvent, setNewEvent] = useState({ name: '', description: '', location: '', start_time: '', end_time: '', organization: '' });
 
   useEffect(() => {
     fetchEvents();
-    fetchOrganizations(); // Fetch organizations for the mapping
+    fetchOrganizations();
   }, []);
 
   const fetchEvents = () => {
@@ -22,9 +28,9 @@ function EventsList() {
   };
 
   const fetchOrganizations = () => {
-    axios.get('http://127.0.0.1:8000/api/organizations/')  // API endpoint to get organizations
+    axios.get('http://127.0.0.1:8000/api/organizations/')
       .then(response => {
-        setOrganizations(response.data);  // Set organizations for mapping
+        setOrganizations(response.data);
       })
       .catch(error => {
         console.log('Error fetching the organizations:', error);
@@ -64,9 +70,25 @@ function EventsList() {
     return organization ? organization.name : 'Unknown';
   };
 
+  // Transform events for the calendar component
+  const calendarEvents = events.map(event => ({
+    title: event.name,
+    start: new Date(event.start_time),
+    end: new Date(event.end_time),
+  }));
+
   return (
     <div>
       <h2>Events</h2>
+
+      <Calendar
+        localizer={localizer}
+        events={calendarEvents}
+        startAccessor="start"
+        endAccessor="end"
+        style={{ height: 500, marginBottom: 20 }}
+      />
+
       <table border="1" cellPadding="10" cellSpacing="0">
         <thead>
           <tr>
@@ -87,7 +109,6 @@ function EventsList() {
               <td>{event.location}</td>
               <td>{new Date(event.start_time).toLocaleString()}</td>
               <td>{new Date(event.end_time).toLocaleString()}</td>
-              {/* Use getOrganizationName to display the organization name by ID */}
               <td>{getOrganizationName(event.organization)}</td> 
               <td>
                 <button onClick={() => handleDeleteEvent(event.id)}>Delete</button>
@@ -105,7 +126,6 @@ function EventsList() {
         <input type="datetime-local" name="start_time" value={newEvent.start_time} onChange={handleInputChange} required />
         <input type="datetime-local" name="end_time" value={newEvent.end_time} onChange={handleInputChange} required />
 
-        {/* Add organization dropdown */}
         <select name="organization" value={newEvent.organization} onChange={handleInputChange} required>
           <option value="">Select Organization</option>
           {organizations.map(org => (

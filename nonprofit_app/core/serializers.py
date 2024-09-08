@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import (
     Profile, NonProfitOrganization, Volunteer, Donation, 
     Project, Event, VolunteerApplication, Registration, 
-    Resource, ResourceAllocation, VolunteerOpportunity
+    Resource, ResourceAllocation
 )
 from django.contrib.auth.models import User
 
