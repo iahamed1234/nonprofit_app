@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets, status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 from .models import Profile, NonProfitOrganization, Volunteer, Donation, Project, Event, VolunteerApplication, Registration, Resource, ResourceAllocation
 from .serializers import ProfileSerializer, NonProfitOrganizationSerializer, VolunteerSerializer, DonationSerializer, ProjectSerializer, EventSerializer, VolunteerApplicationSerializer, RegistrationSerializer, ResourceSerializer, ResourceAllocationSerializer
@@ -9,8 +9,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
-from .models import Volunteer
-from .serializers import VolunteerSerializer
+# from .models import Volunteer
+# from .serializers import VolunteerSerializer
+from .tasks import send_event_reminder_email
 
 @api_view(['POST'])
 def register_volunteer(request):
@@ -79,6 +80,24 @@ class ProjectViewSet(viewsets.ModelViewSet):
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+
+    #schedule email 2 days before
+    @action(detail=True, methods=['post'])
+    def register(self, request, pk=None):
+        user = request.user  # Get the logged-in user
+        event = self.get_object()  # Get the event instance
+
+        if Registration.objects.filter(user=user, event=event).exists():
+            return Response({"detail": "Already registered for this event."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Create the registration
+        registration = Registration.objects.create(user=user, event=event)
+
+        # Schedule an email to be sent 2 days before the event
+        email_time = event.start_time - timedelta(days=2)  # 2 days before event
+        send_event_reminder_email.schedule(email_time, user.email, event.name, event.start_time)
+
+        return Response({"detail": "Successfully registered for the event."}, status=status.HTTP_201_CREATED)
 
 # VolunteerApplication ViewSet
 class VolunteerApplicationViewSet(viewsets.ModelViewSet):

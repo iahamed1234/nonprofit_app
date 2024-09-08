@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'channels',
     'core',
     'corsheaders', # Call Django backend from frontend
+    'background_task', # Email calendar notice
 ]
 
 MIDDLEWARE = [
@@ -93,7 +94,6 @@ TEMPLATES = [
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# Code I edited
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -104,8 +104,15 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-# End of code I edited
 
+#Email for calendar notifications
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'nonprofitapp1@gmail.com'
+EMAIL_HOST_PASSWORD = 'Wordpass1'
+DEFAULT_FROM_EMAIL = 'nonprofitapp1@gmail.com'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

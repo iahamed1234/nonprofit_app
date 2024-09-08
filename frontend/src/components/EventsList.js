@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import RegisterForEvent from './RegisterForEvent';
 
 // Initialize the localizer for the calendar
 const localizer = momentLocalizer(moment);
@@ -98,6 +99,7 @@ function EventsList() {
             <th>Start Time</th>
             <th>End Time</th>
             <th>Organization</th>
+            <th>Register</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -111,8 +113,12 @@ function EventsList() {
               <td>{new Date(event.end_time).toLocaleString()}</td>
               <td>{getOrganizationName(event.organization)}</td> 
               <td>
+                <RegisterForEvent eventId={event.id} />
+              </td>
+              <td>
                 <button onClick={() => handleDeleteEvent(event.id)}>Delete</button>
               </td>
+              
             </tr>
           ))}
         </tbody>
