@@ -104,3 +104,16 @@ class ResourceAllocation(models.Model):
 
     def __str__(self):
         return f"{self.resource.name} - {self.quantity}"
+
+# Volunteer Opportunities model
+class VolunteerOpportunity(models.Model):
+    organization = models.ForeignKey('NonProfitOrganization', on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    location = models.CharField(max_length=255)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title

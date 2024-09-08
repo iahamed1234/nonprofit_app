@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import ProfileViewSet, NonProfitOrganizationViewSet, VolunteerViewSet, DonationViewSet, ProjectViewSet, EventViewSet, VolunteerApplicationViewSet, RegistrationViewSet, ResourceViewSet, ResourceAllocationViewSet
+from .views import ProfileViewSet, NonProfitOrganizationViewSet, VolunteerViewSet, DonationViewSet, ProjectViewSet, EventViewSet, VolunteerApplicationViewSet, RegistrationViewSet, ResourceViewSet, ResourceAllocationViewSet, VolunteerOpportunityViewSet
 from .views import register_volunteer
 
 router = DefaultRouter()
@@ -14,6 +14,7 @@ router.register(r'applications', VolunteerApplicationViewSet)
 router.register(r'registrations', RegistrationViewSet)
 router.register(r'resources', ResourceViewSet)
 router.register(r'allocations', ResourceAllocationViewSet)
+router.register(r'opportunities', VolunteerOpportunityViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),

@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import (
     Profile, NonProfitOrganization, Volunteer, Donation, 
     Project, Event, VolunteerApplication, Registration, 
-    Resource, ResourceAllocation
+    Resource, ResourceAllocation, VolunteerOpportunity
 )
 from django.contrib.auth.models import User
 
@@ -101,7 +101,12 @@ class ResourceAllocationSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
     def validate(self, data):
-        # Ensure that at least one of `project` or `event` is provided
         if not data.get('project') and not data.get('event'):
             raise serializers.ValidationError("Either 'project' or 'event' must be provided.")
         return data
+    
+# VolunteerOpportunity Serializer
+class VolunteerOpportunitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VolunteerOpportunity
+        fields = '__all__'
