@@ -14,7 +14,8 @@ router.register(r'applications', VolunteerApplicationViewSet)
 router.register(r'registrations', RegistrationViewSet)
 router.register(r'resources', ResourceViewSet)
 router.register(r'allocations', ResourceAllocationViewSet)
-router.register(r'opportunities', VolunteerOpportunityViewSet)
+# router.register(r'opportunities', VolunteerOpportunityViewSet)
+# router.register(r'opportunities', ProjectViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),

@@ -100,7 +100,7 @@ class ResourceAllocationViewSet(viewsets.ModelViewSet):
     queryset = ResourceAllocation.objects.all()
     serializer_class = ResourceAllocationSerializer
 
-# VolunteerOpportunity View
-class VolunteerOpportunityViewSet(viewsets.ModelViewSet):
-    queryset = VolunteerOpportunity.objects.all()
-    serializer_class = VolunteerOpportunitySerializer
+# # VolunteerOpportunity View
+# class VolunteerOpportunityViewSet(viewsets.ModelViewSet):
+#     queryset = VolunteerOpportunity.objects.all()
+#     serializer_class = VolunteerOpportunitySerializer

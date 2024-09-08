@@ -66,6 +66,7 @@ function ProjectsList() {
   return (
     <div>
       <h2>Projects</h2>
+      <Link to="/post-opportunity">Post a New Opportunity</Link>
       <table border="1" cellPadding="10" cellSpacing="0">
         <thead>
           <tr>

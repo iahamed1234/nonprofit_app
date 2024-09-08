@@ -105,8 +105,8 @@ class ResourceAllocationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Either 'project' or 'event' must be provided.")
         return data
     
-# VolunteerOpportunity Serializer
-class VolunteerOpportunitySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = VolunteerOpportunity
-        fields = '__all__'
+# # VolunteerOpportunity Serializer
+# class VolunteerOpportunitySerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = VolunteerOpportunity
+#         fields = '__all__'

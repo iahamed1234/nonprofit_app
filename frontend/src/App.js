@@ -30,6 +30,8 @@ import EventsList from './components/EventsList';
 import VolunteerRegistration from './components/VolunteerRegistration';
 import Chat from './components/Chat';
 import ProjectPage from './pages/ProjectPage';
+import PostOpportunity from './components/PostOpportunity';
+
 // import AddEvent from './components/AddEvent';
 
 function App() {
@@ -52,6 +54,7 @@ function App() {
           <Route path="/volunteers" element={<VolunteersList />} />
           <Route path="/donations" element={<DonationsList />} />
           <Route path="/projects" element={<ProjectsList />} />
+          <Route path="/post-opportunity" element={<PostOpportunity />} />
           <Route path="/events" element={<EventsList />} />
           <Route path="/register-volunteer" element={<VolunteerRegistration />} />
           <Route path="/chat" element={<Chat />} />
