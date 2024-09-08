@@ -29,6 +29,7 @@ import ProjectsList from './components/ProjectsList';
 import EventsList from './components/EventsList';
 import VolunteerRegistration from './components/VolunteerRegistration';
 import Chat from './components/Chat';
+import ProjectPage from './pages/ProjectPage';
 // import AddEvent from './components/AddEvent';
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
           <Route path="/register-volunteer" element={<VolunteerRegistration />} />
           <Route path="/chat" element={<Chat />} />
           {/* <Route path="/add-event" element={<AddEvent />} /> */}
+          <Route path="/project/:projectId" element={<ProjectPage />} />
           <Route path="/" element={<h1>Welcome to the Volunteer Management Application</h1>} />
         </Routes>
       </div>
