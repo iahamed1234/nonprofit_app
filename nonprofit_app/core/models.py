@@ -107,7 +107,6 @@ class ResourceAllocation(models.Model):
 
 class ChatMessage(models.Model):
     project = models.ForeignKey('Project', on_delete=models.CASCADE)
-    # user = models.ForeignKey(User, on_delete=models.CASCADE)
     message = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 

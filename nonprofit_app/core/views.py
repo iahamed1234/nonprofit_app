@@ -173,3 +173,5 @@ def clear_chat(request, project_id):
         return JsonResponse({'status': 'Chat cleared successfully'})
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
+    
+    
