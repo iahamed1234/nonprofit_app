@@ -25,6 +25,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css';  // Import the CSS file
 import VolunteersList from './components/VolunteersList';
+import DonationForm from './components/DonationForm';
 import DonationsList from './components/DonationsList';
 import ProjectsList from './components/ProjectsList';
 import EventsList from './components/EventsList';
@@ -43,6 +44,7 @@ function App() {
         <nav>
           <ul>
             <li><Link to="/volunteers">Volunteers</Link></li>
+            <li><Link to="/donate">Make a Donation</Link></li>
             <li><Link to="/donations">Donations</Link></li>
             <li><Link to="/projects">Projects</Link></li>
             <li><Link to="/events">Events</Link></li>
@@ -54,6 +56,7 @@ function App() {
 
         <Routes>
           <Route path="/volunteers" element={<VolunteersList />} />
+          <Route path="/donate" element={<DonationForm />} />
           <Route path="/donations" element={<DonationsList />} />
           <Route path="/projects" element={<ProjectsList />} />
           <Route path="/post-opportunity" element={<PostOpportunity />} />
