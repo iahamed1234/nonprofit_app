@@ -23,6 +23,7 @@
 
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import './App.css';  // Import the CSS file
 import VolunteersList from './components/VolunteersList';
 import DonationsList from './components/DonationsList';
 import ProjectsList from './components/ProjectsList';

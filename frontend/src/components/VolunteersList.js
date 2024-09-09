@@ -16,7 +16,7 @@ function VolunteersList() {
 
   return (
     <div>
-      <h2>Volunteers</h2>
+      <h2>Volunteers List</h2>
       <table border="1" cellPadding="10" cellSpacing="0">
         <thead>
           <tr>
