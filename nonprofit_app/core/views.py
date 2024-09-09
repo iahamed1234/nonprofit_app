@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
-from .models import Profile, NonProfitOrganization, Volunteer, Donation, Project, Event, VolunteerApplication, Registration, Resource, ResourceAllocation
-from .serializers import ProfileSerializer, NonProfitOrganizationSerializer, VolunteerSerializer, DonationSerializer, ProjectSerializer, EventSerializer, VolunteerApplicationSerializer, RegistrationSerializer, ResourceSerializer, ResourceAllocationSerializer
+from .models import Profile, NonProfitOrganization, Volunteer, Donation, Project, Event, VolunteerApplication, Registration, Resource, ResourceAllocation, ChatMessage
+from .serializers import ProfileSerializer, NonProfitOrganizationSerializer, VolunteerSerializer, DonationSerializer, ProjectSerializer, EventSerializer, VolunteerApplicationSerializer, RegistrationSerializer, ResourceSerializer, ResourceAllocationSerializer, ChatMessageSerializer
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -150,7 +150,15 @@ class ResourceAllocationViewSet(viewsets.ModelViewSet):
     queryset = ResourceAllocation.objects.all()
     serializer_class = ResourceAllocationSerializer
 
-# # VolunteerOpportunity View
-# class VolunteerOpportunityViewSet(viewsets.ModelViewSet):
-#     queryset = VolunteerOpportunity.objects.all()
-#     serializer_class = VolunteerOpportunitySerializer
+
+# API to fetch chat history
+@api_view(['GET'])
+def get_chat_messages(request, project_id):
+    messages = ChatMessage.objects.filter(project_id=project_id).order_by('timestamp')
+    serializer = ChatMessageSerializer(messages, many=True)
+    return Response(serializer.data)
+
+class ChatMessageViewSet(viewsets.ModelViewSet):
+    queryset = ChatMessage.objects.all()
+    serializer_class = ChatMessageSerializer
+    filterset_fields = ['project']

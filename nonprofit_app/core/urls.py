@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import ProfileViewSet, NonProfitOrganizationViewSet, VolunteerViewSet, DonationViewSet, ProjectViewSet, EventViewSet, VolunteerApplicationViewSet, RegistrationViewSet, ResourceViewSet, ResourceAllocationViewSet, get_skills, get_volunteers_by_skills, send_event_email
-from .views import register_volunteer
+from .views import ProfileViewSet, NonProfitOrganizationViewSet, VolunteerViewSet, DonationViewSet, ProjectViewSet, EventViewSet, VolunteerApplicationViewSet, RegistrationViewSet, ResourceViewSet, ResourceAllocationViewSet, ChatMessageViewSet
+from .views import register_volunteer, get_skills, get_volunteers_by_skills, send_event_email, get_chat_messages
 
 router = DefaultRouter()
 router.register(r'profiles', ProfileViewSet)
@@ -14,6 +14,7 @@ router.register(r'applications', VolunteerApplicationViewSet)
 router.register(r'registrations', RegistrationViewSet)
 router.register(r'resources', ResourceViewSet)
 router.register(r'allocations', ResourceAllocationViewSet)
+router.register(r'chat-messages', ChatMessageViewSet)
 # router.register(r'opportunities', VolunteerOpportunityViewSet)
 # router.register(r'opportunities', ProjectViewSet)
 
@@ -23,4 +24,5 @@ urlpatterns = [
     path('api/skills/', get_skills, name='get_skills'),
     path('api/volunteers/by-skills/', get_volunteers_by_skills, name='get_volunteers_by_skills'),
     path('api/send-email/', send_event_email, name='send_event_email'),
+    path('api/projects/<int:project_id>/chat-messages/', get_chat_messages, name='get_chat_messages'),
 ]

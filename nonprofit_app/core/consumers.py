@@ -1,11 +1,13 @@
-import json
-from channels.generic.websocket import AsyncWebsocketConsumer
+# import json
+# from channels.generic.websocket import AsyncWebsocketConsumer
 
 # class ChatConsumer(AsyncWebsocketConsumer):
 #     async def connect(self):
-#         self.room_group_name = 'chat_global'
+#         # Use project ID to create a unique room for each project
+#         self.project_id = self.scope['url_route']['kwargs']['project_id']
+#         self.room_group_name = f'chat_{self.project_id}'
 
-#         # Join the chat group
+#         # Join the project chat group
 #         await self.channel_layer.group_add(
 #             self.room_group_name,
 #             self.channel_name
@@ -14,13 +16,12 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 #         await self.accept()
 
 #     async def disconnect(self, close_code):
-#         # Leave the chat group
+#         # Leave the project chat group
 #         await self.channel_layer.group_discard(
 #             self.room_group_name,
 #             self.channel_name
 #         )
 
-#     # Receive a message from WebSocket
 #     async def receive(self, text_data):
 #         text_data_json = json.loads(text_data)
 #         message = text_data_json['message']
@@ -34,7 +35,6 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 #             }
 #         )
 
-#     # Receive a message from the group and send it to WebSocket
 #     async def chat_message(self, event):
 #         message = event['message']
 
@@ -43,9 +43,15 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 #             'message': message
 #         }))
 
+# nonprofit_app/core/consumers.py
+# consumers.py
+import json
+from channels.generic.websocket import AsyncWebsocketConsumer
+from asgiref.sync import sync_to_async
+from .models import Project, ChatMessage
+
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        # Use project ID to create a unique room for each project
         self.project_id = self.scope['url_route']['kwargs']['project_id']
         self.room_group_name = f'chat_{self.project_id}'
 
@@ -54,7 +60,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
-
         await self.accept()
 
     async def disconnect(self, close_code):
@@ -67,6 +72,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
+
+        # Save the message to the database
+        project = await sync_to_async(Project.objects.get)(id=self.project_id)
+        await sync_to_async(ChatMessage.objects.create)(project=project, message=message)
 
         # Send the message to the group
         await self.channel_layer.group_send(

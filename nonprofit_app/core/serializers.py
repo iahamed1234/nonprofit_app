@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import (
     Profile, NonProfitOrganization, Volunteer, Donation, 
     Project, Event, VolunteerApplication, Registration, 
-    Resource, ResourceAllocation
+    Resource, ResourceAllocation, ChatMessage
 )
 from django.contrib.auth.models import User
 
@@ -105,8 +105,8 @@ class ResourceAllocationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Either 'project' or 'event' must be provided.")
         return data
     
-# # VolunteerOpportunity Serializer
-# class VolunteerOpportunitySerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = VolunteerOpportunity
-#         fields = '__all__'
+# ChatMessageSerializer
+class ChatMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChatMessage
+        fields = ['id', 'project', 'message', 'timestamp']
