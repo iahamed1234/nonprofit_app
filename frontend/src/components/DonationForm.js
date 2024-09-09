@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 function DonationForm() {
-  const [user, setUser] = useState(''); // Assuming you'll provide the user ID in some way
+  const [email, setEmail] = useState(''); // User email instead of ID
   const [amount, setAmount] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
-  const [receiptNumber, setReceiptNumber] = useState('');
+  const [creditCard, setCreditCard] = useState('4111111111111111');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -14,10 +14,9 @@ function DonationForm() {
 
     // Create the donation object
     const donationData = {
-      user, // You need to get the logged-in user's ID dynamically or pass this
+      email, // Use email instead of user ID
       amount: parseFloat(amount),
       payment_method: paymentMethod,
-      receipt_number: receiptNumber,
     };
 
     // Make an API request to submit the donation
@@ -28,7 +27,7 @@ function DonationForm() {
         // Clear the form
         setAmount('');
         setPaymentMethod('');
-        setReceiptNumber('');
+        setCreditCard('4111111111111111'); // Reset credit card for testing
       })
       .catch(error => {
         setErrorMessage('Error submitting donation. Please try again.');
@@ -44,12 +43,12 @@ function DonationForm() {
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="user">User ID:</label>
+          <label htmlFor="email">Email:</label>
           <input
-            type="text"
-            id="user"
-            value={user}
-            onChange={(e) => setUser(e.target.value)}
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
@@ -74,12 +73,11 @@ function DonationForm() {
           />
         </div>
         <div>
-          <label htmlFor="receiptNumber">Receipt Number:</label>
+          <label>Credit Card Number:</label>
           <input
             type="text"
-            id="receiptNumber"
-            value={receiptNumber}
-            onChange={(e) => setReceiptNumber(e.target.value)}
+            value={creditCard}
+            onChange={(e) => setCreditCard(e.target.value)}
             required
           />
         </div>

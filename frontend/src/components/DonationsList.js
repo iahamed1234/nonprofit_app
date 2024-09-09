@@ -25,7 +25,7 @@ function DonationsList() {
             <th>Amount</th>
             <th>Date</th>
             <th>Payment Method</th>
-            <th>Receipt Number</th>
+            {/* <th>Receipt Number</th> */}
           </tr>
         </thead>
         <tbody>
@@ -35,7 +35,7 @@ function DonationsList() {
               <td>${donation.amount}</td>
               <td>{new Date(donation.date).toLocaleDateString()}</td>
               <td>{donation.payment_method}</td>
-              <td>{donation.receipt_number}</td>
+              {/* <td>{donation.receipt_number}</td> */}
             </tr>
           ))}
         </tbody>

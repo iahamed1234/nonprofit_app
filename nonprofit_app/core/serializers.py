@@ -1,3 +1,5 @@
+import random
+import string
 from rest_framework import serializers
 from .models import (
     Profile, NonProfitOrganization, Volunteer, Donation, 
@@ -37,13 +39,31 @@ class VolunteerSerializer(serializers.ModelSerializer):
         return representation
 
 
-# Donation Serializer
 class DonationSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    email = serializers.EmailField(write_only=True)
 
     class Meta:
         model = Donation
-        fields = '__all__'
+        fields = ['email', 'amount', 'payment_method']
+
+    def create(self, validated_data):
+        email = validated_data.pop('email')
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise serializers.ValidationError("User with this email does not exist.")
+
+        # Generate a random receipt number
+        receipt_number = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+
+        # Create the donation with the generated receipt number
+        donation = Donation.objects.create(
+            user=user,
+            receipt_number=receipt_number,
+            **validated_data
+        )
+        return donation
+
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         # Add the user's email to the representation
