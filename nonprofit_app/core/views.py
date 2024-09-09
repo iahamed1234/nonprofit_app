@@ -9,8 +9,6 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
-# from .models import Volunteer
-# from .serializers import VolunteerSerializer
 from .tasks import send_event_reminder_email
 from django.http import JsonResponse
 from django.core.mail import send_mail
@@ -18,7 +16,7 @@ from django.core.mail import send_mail
 @api_view(['POST'])
 def register_volunteer(request):
     # Extract user-related fields from the request data
-    name = request.data.get('name')  # This can be the full name, we'll split it
+    name = request.data.get('name')
     email = request.data.get('email')
     first_name = request.data.get('first_name', '')
     last_name = request.data.get('last_name', '')
@@ -37,7 +35,7 @@ def register_volunteer(request):
     except Exception as e:
         return Response({'error': 'User creation failed', 'details': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-    # Now create the volunteer associated with the user
+    # Create the volunteer associated with the user
     volunteer_data = {
         'user': user.id,  # Pass the newly created user's ID
         'skills': skills,

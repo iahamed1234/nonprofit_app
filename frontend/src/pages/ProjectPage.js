@@ -1,20 +1,3 @@
-// import React from 'react';
-// import { useParams } from 'react-router-dom';
-// import Chat from '../components/Chat';  // Import the Chat component
-
-// function ProjectPage() {
-//   const { projectId } = useParams();  // Get the projectId from the URL
-
-//   return (
-//     <div>
-//       <h1>Project {projectId}</h1>
-//       {/* Pass the projectId to the Chat component */}
-//       <Chat projectId={projectId} />
-//     </div>
-//   );
-// }
-
-// export default ProjectPage;
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -38,7 +21,6 @@ function ProjectPage() {
   return (
     <div>
       <h1>Project: {projectName}</h1> {/* Display the project name */}
-      {/* Pass the projectId and projectName to the Chat component */}
       <Chat projectId={projectId} projectName={projectName} />
     </div>
   );

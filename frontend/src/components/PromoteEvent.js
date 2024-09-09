@@ -14,7 +14,7 @@ function PromoteEvent() {
   }, []);
 
   const fetchSkills = () => {
-    axios.get('http://127.0.0.1:8000/api/skills/') // Assume you have an API to fetch unique skills
+    axios.get('http://127.0.0.1:8000/api/skills/')
       .then(response => {
         setSkills(response.data);
       })

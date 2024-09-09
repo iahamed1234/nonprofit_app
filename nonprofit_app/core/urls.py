@@ -15,8 +15,6 @@ router.register(r'registrations', RegistrationViewSet)
 router.register(r'resources', ResourceViewSet)
 router.register(r'allocations', ResourceAllocationViewSet)
 router.register(r'chat-messages', ChatMessageViewSet)
-# router.register(r'opportunities', VolunteerOpportunityViewSet)
-# router.register(r'opportunities', ProjectViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),

@@ -6,7 +6,7 @@ function RegisterForEvent({ eventId }) {
 
   const handleRegister = async () => {
     try {
-      const data = { user: 1, event: eventId };  // Assuming user ID 1 is logged in
+      const data = { user: 1, event: eventId };  // user ID 1 as admin
       await axios.post('http://127.0.0.1:8000/api/registrations/', data);
       setMessage('Successfully registered for the event!');
     } catch (error) {

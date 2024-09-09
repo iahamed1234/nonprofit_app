@@ -36,7 +36,6 @@ function App() {
           <Route path="/volunteers" element={<VolunteersList />} />
           <Route path="/donations" element={<DonationsList />} />
           <Route path="/project/:projectId" element={<ProjectPage />} />
-          {/* Home page with background image */}
           <Route
             path="/"
             element={

@@ -25,7 +25,6 @@ function DonationsList() {
             <th>Amount</th>
             <th>Date</th>
             <th>Payment Method</th>
-            {/* <th>Receipt Number</th> */}
           </tr>
         </thead>
         <tbody>

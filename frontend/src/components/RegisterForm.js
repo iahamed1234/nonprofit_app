@@ -14,7 +14,7 @@ function RegisterForm() {
     axios.post('http://127.0.0.1:8000/api/register/', formData)
       .then(response => {
         console.log('User registered:', response.data);
-        // Handle successful registration (e.g., redirect to login)
+        // successful registration
       })
       .catch(error => {
         console.log('Error registering user:', error.response.data);
