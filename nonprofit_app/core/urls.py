@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import ProfileViewSet, NonProfitOrganizationViewSet, VolunteerViewSet, DonationViewSet, ProjectViewSet, EventViewSet, VolunteerApplicationViewSet, RegistrationViewSet, ResourceViewSet, ResourceAllocationViewSet, ChatMessageViewSet
-from .views import register_volunteer, get_skills, get_volunteers_by_skills, send_event_email, get_chat_messages
+from .views import register_volunteer, get_skills, get_volunteers_by_skills, send_event_email, get_chat_messages, clear_chat
 
 router = DefaultRouter()
 router.register(r'profiles', ProfileViewSet)
@@ -25,4 +25,5 @@ urlpatterns = [
     path('api/volunteers/by-skills/', get_volunteers_by_skills, name='get_volunteers_by_skills'),
     path('api/send-email/', send_event_email, name='send_event_email'),
     path('api/projects/<int:project_id>/chat-messages/', get_chat_messages, name='get_chat_messages'),
+    path('api/projects/<int:project_id>/clear-chat/', clear_chat, name='clear_chat'),
 ]

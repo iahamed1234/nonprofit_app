@@ -158,7 +158,18 @@ def get_chat_messages(request, project_id):
     serializer = ChatMessageSerializer(messages, many=True)
     return Response(serializer.data)
 
+# ChatMessage ViewSet
 class ChatMessageViewSet(viewsets.ModelViewSet):
     queryset = ChatMessage.objects.all()
     serializer_class = ChatMessageSerializer
     filterset_fields = ['project']
+
+# Clear Chat in database
+@api_view(['DELETE'])
+def clear_chat(request, project_id):
+    if request.method == 'DELETE':
+        # Delete all chat messages for the specified project
+        ChatMessage.objects.filter(project_id=project_id).delete()
+        return JsonResponse({'status': 'Chat cleared successfully'})
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)

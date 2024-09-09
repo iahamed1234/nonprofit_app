@@ -57,7 +57,15 @@ function Chat({ projectId }) {
   };
   // Function to clear the chat messages on the frontend
   const clearChat = () => {
-    setMessages([]);  // Clear the messages array
+    // Call the backend API to clear the chat
+    axios.delete(`http://127.0.0.1:8000/api/projects/${projectId}/clear-chat/`)
+      .then(response => {
+        console.log(response.data.status);
+        setMessages([]);  // Clear the chat in the frontend as well
+      })
+      .catch(error => {
+        console.error('Error clearing the chat:', error);
+      });
   };
 
   return (
